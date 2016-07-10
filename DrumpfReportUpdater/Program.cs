@@ -16,15 +16,22 @@ namespace DrumpfReportUpdater
     {
         static void Main(string[] args)
         {
-            string savedArticlePath = "CurrentDrumpfArticles.json";
+            string savedArticlePath = "d:\\home\\site\\wwwroot\\CurrentDrumpfArticles.js";
+
+            #if DEBUG
+                 savedArticlePath = "CurrentDrumpfArticles.js";
+            #endif
+
             List<NewsResult> newArticles = GetNewArticles();
+
+            Console.WriteLine("New Articles");
+            Console.WriteLine("------------------------------------------------");
 
             foreach (var article in newArticles)
             {
+                Console.WriteLine(article.Title);
                 article.Title = article.Title.Replace("Trump", "Drumpf");
-                article.Title = article.Title.Replace("\"", "&quot ");
-                article.Title = article.Title.Replace("'", "&rsquo ");
-
+                article.Title = article.Title.Replace("\"", "&quot");
             }
             List<NewsResult> SavedArticles = GetSavedArticlesFromJson(savedArticlePath);
 
@@ -38,39 +45,61 @@ namespace DrumpfReportUpdater
 
             SavedArticles = SavedArticles.OrderByDescending(p => p.Date).ToList();
 
-            int savedArticleCount = (SavedArticles.Count < 25) ? SavedArticles.Count : 25; 
-        
-            SavedArticles = SavedArticles.GetRange(0, savedArticleCount );
+            int desiredArticleCount = 40;
+            int savedArticleCount = (SavedArticles.Count < desiredArticleCount) ? SavedArticles.Count : desiredArticleCount;
+
+            SavedArticles = SavedArticles.GetRange(0, savedArticleCount);
 
             DisplayArticles(SavedArticles);
             SaveJsonObjectToFile(SavedArticles, savedArticlePath);
-           
+#if DEBUG
+            Console.ReadLine();
+#endif
         }
 
         private static void SaveJsonObjectToFile(List<NewsResult> _savedArticles, string _jsonFilePath)
         {
-        
-            string json = "var jsonArticles = { \"Articles\" :" +  JsonConvert.SerializeObject(_savedArticles) + "};";
-            File.WriteAllText(_jsonFilePath, json);
+            try
+            {
+                string json = "var jsonArticles = { \"Articles\" :" + JsonConvert.SerializeObject(_savedArticles) + "};";
+                File.WriteAllText(_jsonFilePath, json);
+                Console.WriteLine("jsonArticle file saved");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
         }
 
         private static void DisplayArticles(List<NewsResult> _savedArticles)
         {//TODO Convert to for ?
             int i = 0;
+            Console.WriteLine("Saved Articles");
+            Console.WriteLine("------------------------------------------------");
             foreach (var item in _savedArticles)
             {
                 i++;
-                Debug.WriteLine(i + " - " +  item.Title + "   :" + item.Date.ToString());
+                Console.WriteLine(i + " - " + item.Title + "   :" + item.Date.ToString());
             }
         }
 
         private static List<NewsResult> GetSavedArticlesFromJson(string _jsonFilePath)
         {
             List<NewsResult> SavedArticles = new List<NewsResult>();
-
+            //TODO Refactor
             if (!File.Exists(_jsonFilePath))
             {
-                File.Create(_jsonFilePath);
+                try
+                {
+                    File.Create(_jsonFilePath).Close();
+                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error Writing File" + ex.Message);
+                    throw;
+                }
+
             }
 
             using (StreamReader streamReader = new StreamReader(_jsonFilePath))
@@ -81,11 +110,12 @@ namespace DrumpfReportUpdater
                     json = json.Replace("var jsonArticles = { \"Articles\" :", "");
                     json = json.Replace("};", "");
                     SavedArticles = (List<NewsResult>)JsonConvert.DeserializeObject<List<NewsResult>>(json);
+                    Console.WriteLine("Save File Read");
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Error" + ex.Message);
-                    streamReader.Close(); 
+                    Console.WriteLine("Error" + ex.Message);
+                    streamReader.Close();
                 }
             }
             return SavedArticles;
