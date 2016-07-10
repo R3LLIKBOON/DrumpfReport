@@ -17,43 +17,69 @@ namespace DrumpfReportUpdater
         static void Main(string[] args)
         {
             string savedArticlePath = "d:\\home\\site\\wwwroot\\CurrentDrumpfArticles.js";
-
-            #if DEBUG
-                 savedArticlePath = "CurrentDrumpfArticles.js";
-            #endif
-
+#if DEBUG
+            savedArticlePath = "CurrentDrumpfArticles.js";
+#endif
+            JsonFileManager jsonFileManger = new JsonFileManager();
+            List<NewsResult> savedArticles = new List<NewsResult>();
             List<NewsResult> newArticles = GetNewArticles();
 
-            Console.WriteLine("New Articles");
-            Console.WriteLine("------------------------------------------------");
+            ReplaceTrumpText(newArticles);
+            DisplayNewArticles(newArticles);
 
-            foreach (var article in newArticles)
-            {
-                Console.WriteLine(article.Title);
-                article.Title = article.Title.Replace("Trump", "Drumpf");
-            }
-            List<NewsResult> SavedArticles = GetSavedArticlesFromJson(savedArticlePath);
+            savedArticles = jsonFileManger.GetSavedArticlesFromJson(savedArticlePath);
+            savedArticles =  AddNewArticles(newArticles, savedArticles);
+            savedArticles = TrimArticles(savedArticles);
+            DisplayArticles(savedArticles);
 
-            foreach (var item in newArticles)
-            {
-                if ((SavedArticles.Where(p => p.Title == item.Title).FirstOrDefault() == null))
-                {
-                    SavedArticles.Add(item);
-                }
-            }
-
-            SavedArticles = SavedArticles.OrderByDescending(p => p.Date).ToList();
-
-            int desiredArticleCount = 40;
-            int savedArticleCount = (SavedArticles.Count < desiredArticleCount) ? SavedArticles.Count : desiredArticleCount;
-
-            SavedArticles = SavedArticles.GetRange(0, savedArticleCount);
-
-            DisplayArticles(SavedArticles);
-            SaveJsonObjectToFile(SavedArticles, savedArticlePath);
+            SaveJsonObjectToFile(savedArticles, savedArticlePath);
 #if DEBUG
             Console.ReadLine();
 #endif
+        }
+
+        private static List<NewsResult> TrimArticles(List<NewsResult> _savedArticles)
+        {
+            List<NewsResult> savedArticles = _savedArticles;
+            int desiredArticleCount = 40;
+
+            savedArticles = savedArticles.OrderByDescending(p => p.Date).ToList();
+            int savedArticleCount = (_savedArticles.Count < desiredArticleCount) ? _savedArticles.Count : desiredArticleCount;
+
+            _savedArticles = _savedArticles.GetRange(0, savedArticleCount);
+            return savedArticles;
+        }
+
+        private static List<NewsResult> AddNewArticles(List<NewsResult> _newArticles, List<NewsResult> _savedArticles)
+        {
+            List<NewsResult> savedArticles = _savedArticles;
+
+            foreach (var item in _newArticles)
+            {
+                if ((_savedArticles.Where(p => p.Title == item.Title).FirstOrDefault() == null))
+                {
+                    savedArticles.Add(item);
+                }
+            }
+            return savedArticles;
+        }
+
+        private static void DisplayNewArticles(List<NewsResult> _newArticles)
+        {
+            Console.WriteLine("New Articles");
+            Console.WriteLine("------------------------------------------------");
+            foreach (var article in _newArticles)
+            {
+                Console.WriteLine(article.Title);
+            }
+        }
+
+        private static void ReplaceTrumpText(List<NewsResult> _newArticles)
+        {
+            foreach (var article in _newArticles)
+            {
+                article.Title = article.Title.Replace("Trump", "Drumpf");
+            }
         }
 
         private static void SaveJsonObjectToFile(List<NewsResult> _savedArticles, string _jsonFilePath)
@@ -71,53 +97,15 @@ namespace DrumpfReportUpdater
         }
 
         private static void DisplayArticles(List<NewsResult> _savedArticles)
-        {//TODO Convert to for ?
-            int i = 0;
+        {
             Console.WriteLine("Saved Articles");
             Console.WriteLine("------------------------------------------------");
-            foreach (var item in _savedArticles)
-            {
-                i++;
-                Console.WriteLine(i + " - " + item.Title + "   :" + item.Date.ToString());
-            }
-        }
 
-        private static List<NewsResult> GetSavedArticlesFromJson(string _jsonFilePath)
-        {
-            List<NewsResult> SavedArticles = new List<NewsResult>();
-            //TODO Refactor
-            if (!File.Exists(_jsonFilePath))
+            for (int i = 0; i < _savedArticles.Count; i++)
             {
-                try
-                {
-                    File.Create(_jsonFilePath).Close();
-                    
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error Writing File" + ex.Message);
-                    throw;
-                }
-
+                var article = _savedArticles[i];
+                Console.WriteLine(i + " - " + article.Title + "   :" + article.Date.ToString());
             }
-
-            using (StreamReader streamReader = new StreamReader(_jsonFilePath))
-            {
-                try
-                {
-                    string json = streamReader.ReadToEnd();
-                    json = json.Replace("var jsonArticles = { \"Articles\" :", "");
-                    json = json.Replace("};", "");
-                    SavedArticles = (List<NewsResult>)JsonConvert.DeserializeObject<List<NewsResult>>(json);
-                    Console.WriteLine("Save File Read");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error" + ex.Message);
-                    streamReader.Close();
-                }
-            }
-            return SavedArticles;
         }
 
         private static List<NewsResult> GetNewArticles()
