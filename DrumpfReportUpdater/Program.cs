@@ -31,7 +31,6 @@ namespace DrumpfReportUpdater
             {
                 Console.WriteLine(article.Title);
                 article.Title = article.Title.Replace("Trump", "Drumpf");
-                article.Title = article.Title.Replace("\"", "&quot");
             }
             List<NewsResult> SavedArticles = GetSavedArticlesFromJson(savedArticlePath);
 
