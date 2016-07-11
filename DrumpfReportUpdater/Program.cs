@@ -7,18 +7,19 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Bing;
+using DrumpfReport.DAL;
 using Newtonsoft.Json;
 
 
-namespace DrumpfReportUpdater
+namespace DrumpfReport.Updater
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string savedArticlePath = "d:\\home\\site\\wwwroot\\CurrentDrumpfArticles.js";
+            string savedArticlePath = "d:\\home\\site\\wwwroot\\CurrentDrumpfArticles.json";
 #if DEBUG
-            savedArticlePath = "CurrentDrumpfArticles.js";
+            savedArticlePath = "CurrentDrumpfArticles.json";
 #endif
             JsonFileManager jsonFileManger = new JsonFileManager();
             List<NewsResult> savedArticles = new List<NewsResult>();
@@ -27,12 +28,30 @@ namespace DrumpfReportUpdater
             ReplaceTrumpText(newArticles);
             DisplayNewArticles(newArticles);
 
-            savedArticles = jsonFileManger.GetSavedArticlesFromJson(savedArticlePath);
+            try
+            {
+                savedArticles = jsonFileManger.GetSavedArticlesFromJson(savedArticlePath);
+                Console.WriteLine("Save File Read");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error" + ex.Message);
+            }
+
             savedArticles =  AddNewArticles(newArticles, savedArticles);
             savedArticles = TrimArticles(savedArticles);
             DisplayArticles(savedArticles);
 
-            SaveJsonObjectToFile(savedArticles, savedArticlePath);
+            try
+            {
+                jsonFileManger.SaveJsonObjectToFile(savedArticles, savedArticlePath);
+                Console.WriteLine("jsonArticle file saved");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+          
 #if DEBUG
             Console.ReadLine();
 #endif
@@ -46,7 +65,7 @@ namespace DrumpfReportUpdater
             savedArticles = savedArticles.OrderByDescending(p => p.Date).ToList();
             int savedArticleCount = (_savedArticles.Count < desiredArticleCount) ? _savedArticles.Count : desiredArticleCount;
 
-            _savedArticles = _savedArticles.GetRange(0, savedArticleCount);
+            savedArticles = _savedArticles.GetRange(0, savedArticleCount);
             return savedArticles;
         }
 
@@ -82,19 +101,6 @@ namespace DrumpfReportUpdater
             }
         }
 
-        private static void SaveJsonObjectToFile(List<NewsResult> _savedArticles, string _jsonFilePath)
-        {
-            try
-            {
-                string json = "var jsonArticles = { \"Articles\" :" + JsonConvert.SerializeObject(_savedArticles) + "};";
-                File.WriteAllText(_jsonFilePath, json);
-                Console.WriteLine("jsonArticle file saved");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-        }
 
         private static void DisplayArticles(List<NewsResult> _savedArticles)
         {
@@ -104,7 +110,7 @@ namespace DrumpfReportUpdater
             for (int i = 0; i < _savedArticles.Count; i++)
             {
                 var article = _savedArticles[i];
-                Console.WriteLine(i + " - " + article.Title + "   :" + article.Date.ToString());
+                Console.WriteLine((i + 1) + " - " + article.Title + "   :" + article.Date.ToString());
             }
         }
 
