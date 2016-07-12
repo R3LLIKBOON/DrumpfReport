@@ -8,61 +8,51 @@
 <div id="HeadlineContainer">
     <img id="HeadlineImg" src="~/Images/Drumpf.jpg" />
 
-    <!-- <a id=TopStory href=""></a>-->
+    @*<!-- <a id=TopStory href=""></a>-->*@
 </div>
+@*<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=qf_sp_asin_til&ad_type=product_link&tracking_id=r3lli-20&marketplace=amazon&region=US&placement=B01CE2NDUA&asins=B01CE2NDUA&linkId=aa1132310f02c034322202031bc7e93d&show_border=false&link_opens_in_new_window=false&price_color=333333&title_color=0066C0&bg_color=FFFFFF"></iframe>*@
 <h1>DRUMPF REPORT</h1>
 
 <div id="ColumnOne">
     <ul>
         <li><a href="@Model[0].Url">@Model[0].Title</a></li>
-        <li ><a class="BottomDivider" href="@Model[1].Url">@Model[1].Title</a></li>
-        @*<hr>*@
-        <li><a href="@Model[2].Url">@Model[2].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[3].Url">@Model[3].Title</a></li>
-        @*<hr>*@
-        <li><a href="@Model[4].Url">@Model[4].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[5].Url">@Model[5].Title</a></li>
-        @*<hr>*@
-        <li><a class="BottomDivider" href="@Model[6].Url">@Model[6].Title</a></li>
-        @*<hr>*@
-        <li><a class="BottomDivider" href="@Model[7].Url">@Model[7].Title</a></li>
-       @* <hr>*@
-        <li><a href="@Model[8].Url">@Model[8].Title</a></li>
-        <li><a href="@Model[9].Url">@Model[9].Title</a></li>
+        <li ><a class="BottomDivider" href="@Model[3].Url">@Model[3].Title</a></li>
+        <li><a href="@Model[6].Url">@Model[6].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[9].Url">@Model[9].Title</a></li>
+        <li><a href="@Model[12].Url">@Model[12].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[15].Url">@Model[15].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[18].Url">@Model[18].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[21].Url">@Model[21].Title</a></li>
+        <li><a href="@Model[24].Url">@Model[24].Title</a></li>
+        <li><a href="@Model[27].Url">@Model[27].Title</a></li>
     </ul>
 </div>
 
 <div id="ColumnTwo">
     <ul>
+        <li><a href="@Model[1].Url">@Model[1].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[4].Url">@Model[4].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[7].Url">@Model[7].Title</a></li>
         <li><a href="@Model[10].Url">@Model[10].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[11].Url">@Model[11].Title</a></li>
-       @* <hr>*@
-        <li><a class="BottomDivider" href="@Model[12].Url">@Model[12].Title</a></li>
-        @*<hr>*@
         <li><a href="@Model[13].Url">@Model[13].Title</a></li>
-        <li><a href="@Model[14].Url">@Model[14].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[15].Url">@Model[15].Title</a></li>
-       @* <hr>*@
-        <li><a href="@Model[16].Url">@Model[16].Title</a></li>
-        <li><a href="@Model[17].Url">@Model[17].Title</a></li>
-        <li><a href="@Model[18].Url">@Model[18].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[16].Url">@Model[16].Title</a></li>
         <li><a href="@Model[19].Url">@Model[19].Title</a></li>
+        <li><a href="@Model[22].Url">@Model[22].Title</a></li>
+        <li><a href="@Model[25].Url">@Model[25].Title</a></li>
+        <li><a href="@Model[28].Url">@Model[28].Title</a></li>
     </ul>
 </div>
 <div id="ColumnThree">
     <ul>
+        <li><a href="@Model[2].Url">@Model[2].Title</a></li>
+        <li><a href="@Model[5].Url">@Model[5].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[8].Url">@Model[8].Title</a></li>
+        <li><a href="@Model[11].Url">@Model[11].Title</a></li>
+        <li><a href="@Model[14].Url">@Model[14].Title</a></li>
+        <li><a class="BottomDivider" href="@Model[17].Url">@Model[17].Title</a></li>
         <li><a href="@Model[20].Url">@Model[20].Title</a></li>
-        <li><a href="@Model[21].Url">@Model[21].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[22].Url">@Model[22].Title</a></li>
-       @* <hr>*@
         <li><a href="@Model[23].Url">@Model[23].Title</a></li>
-        <li><a href="@Model[24].Url">@Model[24].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[25].Url">@Model[25].Title</a></li>
-       @* <hr>*@
-        <li><a href="@Model[26].Url">@Model[26].Title</a></li>
-        <li><a href="@Model[27].Url">@Model[27].Title</a></li>
-        <li><a class="BottomDivider" href="@Model[28].Url">@Model[28].Title</a></li>
-     @*   <hr>*@
+        <li><a class="BottomDivider" href="@Model[26].Url">@Model[26].Title</a></li>
         <li><a href="@Model[29].Url">@Model[29].Title</a></li>
     </ul>
 </div>

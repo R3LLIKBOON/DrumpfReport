@@ -13,9 +13,12 @@ namespace DrumpfReport.Web.Controllers
         public ActionResult Index()
         {
             string savedArticlePath = "d:\\home\\site\\wwwroot\\CurrentDrumpfArticles.json";
-#if(DEBUG)//TODO Find out how to de condition debg
-         // savedArticlePath = "C:\\Users\\zzdia\\Documents\\visual studio 2015\\Projects\\DrumpfReportUpdater\\DrumpfReportUpdater\\bin\\Debug\\CurrentDrumpfArticles.json";
-#endif   
+
+            if (ControllerContext.HttpContext.IsDebuggingEnabled)
+            {
+                savedArticlePath = "C:\\Users\\zzdia\\Documents\\visual studio 2015\\Projects\\DrumpfReportUpdater\\DrumpfReportUpdater\\bin\\Debug\\CurrentDrumpfArticles.json";
+            }
+
             List<NewsResult> articles = new List<NewsResult>();
             JsonFileManager jsonFileManager = new JsonFileManager();
             try
@@ -31,7 +34,7 @@ namespace DrumpfReport.Web.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "The Drumpf Report provide the latest news on Donald Drumpf.";
 
             return View();
         }

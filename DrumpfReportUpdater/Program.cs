@@ -39,6 +39,7 @@ namespace DrumpfReport.Updater
             }
 
             savedArticles =  AddNewArticles(newArticles, savedArticles);
+            //TODO Move to JsonFileManager?
             savedArticles = TrimArticles(savedArticles);
             DisplayArticles(savedArticles);
 
@@ -61,12 +62,11 @@ namespace DrumpfReport.Updater
         {
             List<NewsResult> savedArticles = _savedArticles;
             int desiredArticleCount = 40;
-
-            savedArticles = savedArticles.OrderByDescending(p => p.Date).ToList();
             int savedArticleCount = (_savedArticles.Count < desiredArticleCount) ? _savedArticles.Count : desiredArticleCount;
 
-            savedArticles = _savedArticles.GetRange(0, savedArticleCount);
-            return savedArticles;
+            savedArticles = savedArticles.OrderByDescending(p => p.Date).ToList();
+
+            return savedArticles.GetRange(0, savedArticleCount);
         }
 
         private static List<NewsResult> AddNewArticles(List<NewsResult> _newArticles, List<NewsResult> _savedArticles)

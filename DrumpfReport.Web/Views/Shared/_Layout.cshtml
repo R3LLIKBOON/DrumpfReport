@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The Drumpf Report Bring you the latest new on Donald Drumpf">
     <meta name="keywords" content="Trump, Drumpf, Drudge, Report, Donald, Denald, News, Breaking">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <meta name="msapplication-square150x150logo"  content="@Href("~/Images/republican_trump.jpg")" />
+    <meta name="msapplication-square70x70logo" content="@Href("~/Images/republican_trump.jpg")" />
+    <meta name="msapplication-square310x310logo" content="@Href("~/Images/republican_trump.jpg")" />
+    <meta name="application-name" content=" " />
+    <meta name="msapplication-tooltip" content=" " />
+
+    <title>@ViewBag.Title</title>
     <link type="text/css" rel="stylesheet" href="~/Content/Site.css" />
+   
+    <link type="image/x-icon" rel="shortcut icon" href=@Href("~/Images/DrumpfFavIcon.ico") />
+    
+  
    
     <script type="text/javascript">
         var appInsights = window.appInsights || function (config) {
