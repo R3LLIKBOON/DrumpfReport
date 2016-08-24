@@ -166,6 +166,7 @@
     <Content Include="Images\Drumpf.ico" />
     <Content Include="Images\Drumpf.jpg" />
     <Content Include="Images\DrumpfFavIcon.ico" />
+    <Content Include="Images\FlipFlop.png" />
     <Content Include="Images\republican_trump.jpg" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
