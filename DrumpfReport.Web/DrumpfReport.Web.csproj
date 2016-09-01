@@ -166,6 +166,7 @@
     <Content Include="Images\Drumpf.ico" />
     <Content Include="Images\Drumpf.jpg" />
     <Content Include="Images\DrumpfFavIcon.ico" />
+    <Content Include="Images\FeelTheJohnson.png" />
     <Content Include="Images\FlipFlop.png" />
     <Content Include="Images\republican_trump.jpg" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
@@ -181,6 +182,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\DrumpfReport - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\DrumpfReport - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\DrumpfReport - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
