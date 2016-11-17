@@ -16,7 +16,7 @@ namespace DrumpfReport.Web.Controllers
 
             if (ControllerContext.HttpContext.IsDebuggingEnabled)
             {
-                savedArticlePath = "C:\\Users\\zzdia\\Documents\\visual studio 2015\\Projects\\DrumpfReportUpdater\\DrumpfReportUpdater\\bin\\Debug\\CurrentDrumpfArticles.json";
+                savedArticlePath = @"C:\Users\Dave\Source\Repos\DrumpfReport\DrumpfReportUpdater\bin\Debug\CurrentDrumpfArticles.json";
             }
 
             List<NewsResult> articles = new List<NewsResult>();
